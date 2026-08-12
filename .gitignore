@@ -1,0 +1,14 @@
+# Secrets — never commit (keeps .env, .env.local, .env.* variants, but not the template)
+.env
+.env.*
+!.env.example
+
+# Dependencies (none required, but keep clean if added later)
+node_modules/
+
+# Session/agent metadata
+.reasonix/
+
+# Logs & OS junk
+*.log
+.DS_Store

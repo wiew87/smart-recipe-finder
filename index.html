@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Recipe Finder</title>
+  <meta name="description" content="Search hundreds of thousands of recipes and filter by diet, cuisine and prep time — powered by Spoonacular." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍳</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand" aria-label="Smart Recipe Finder home">🍳 Smart Recipe Finder</a>
+      <button id="favorites-toggle" class="btn btn-ghost" type="button" aria-pressed="false">
+        ♥ Saved <span class="fav-count-badge" id="favorites-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>What are we cooking today?</h1>
+      <p class="subtitle">Search hundreds of thousands of recipes, filtered by diet, cuisine and prep time.</p>
+
+      <form id="search-form" class="search-form" autocomplete="off">
+        <div class="search-row">
+          <input
+            id="search-input"
+            type="search"
+            name="query"
+            placeholder="e.g. creamy pasta, chicken stir-fry, chocolate cake…"
+            aria-label="Search recipes"
+          />
+          <button class="btn btn-primary" type="submit">Search</button>
+          <button id="random-btn" class="btn btn-secondary" type="button" title="Get a random recipe">🎲 Surprise me</button>
+        </div>
+
+        <div class="filters">
+          <label class="filter">
+            <span>Diet</span>
+            <select id="diet-filter">
+              <option value="">Any diet</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="gluten free">Gluten free</option>
+              <option value="dairy free">Dairy free</option>
+              <option value="ketogenic">Ketogenic</option>
+              <option value="pescetarian">Pescetarian</option>
+              <option value="paleo">Paleo</option>
+              <option value="whole30">Whole30</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span>Cuisine</span>
+            <select id="cuisine-filter">
+              <option value="">Any cuisine</option>
+              <option value="american">American</option>
+              <option value="british">British</option>
+              <option value="caribbean">Caribbean</option>
+              <option value="chinese">Chinese</option>
+              <option value="french">French</option>
+              <option value="greek">Greek</option>
+              <option value="indian">Indian</option>
+              <option value="irish">Irish</option>
+              <option value="italian">Italian</option>
+              <option value="japanese">Japanese</option>
+              <option value="korean">Korean</option>
+              <option value="mediterranean">Mediterranean</option>
+              <option value="mexican">Mexican</option>
+              <option value="middle eastern">Middle Eastern</option>
+              <option value="southern">Southern</option>
+              <option value="spanish">Spanish</option>
+              <option value="thai">Thai</option>
+              <option value="vietnamese">Vietnamese</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span>Max prep time</span>
+            <select id="time-filter">
+              <option value="">Any</option>
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="45">45 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="90">1.5 hours</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span>Sort by</span>
+            <select id="sort-filter">
+              <option value="popularity">Popularity</option>
+              <option value="time">Fastest first</option>
+            </select>
+          </label>
+        </div>
+      </form>
+
+      <p id="status-line" class="status-line" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <main class="container">
+    <section aria-label="Recipe results">
+      <h2 id="results-title" class="results-title">Try something new</h2>
+      <div id="results-grid" class="results-grid"></div>
+      <div id="empty-state" class="empty-state hidden"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Data by <a href="https://spoonacular.com/food-api" target="_blank" rel="noopener">Spoonacular</a> · API key stays server-side via the Node proxy.</p>
+    </div>
+  </footer>
+
+  <!-- Recipe detail modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Loading spinner -->
+  <div id="loading" class="loading hidden" aria-hidden="true">
+    <div class="spinner"></div>
+    <p>Fetching recipes…</p>
+  </div>
+
+  <script src="recipe.js"></script>
+</body>
+</html>
