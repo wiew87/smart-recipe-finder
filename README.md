@@ -65,8 +65,11 @@ instead of returning 404.
    `SPOONACULAR_API_KEY` = your key (it never lives in the repo).
 3. Redeploy (or just push) and open the deployment URL.
 
-Local `npm start` still works exactly as before — `server.js` only binds a port when
-run directly, and exports the request handler for Vercel.
+How it maps onto Vercel: `api/index.js` is the serverless function (Vercel auto-deploys
+anything in `/api`), `vercel.json` rewrites every `/api/*` request to it, and the page
+files (`index.html`, `style.css`, `recipe.js`) are served as static assets. Local
+`npm start` still works exactly as before — `server.js` only binds a port when run
+directly, and exports the request handler that `api/index.js` reuses.
 
 ## Troubleshooting
 
