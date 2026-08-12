@@ -16,7 +16,21 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const ROOT = __dirname;
+// Project root. Local runs: the folder containing server.js. On Vercel the
+// function bundle places static files (via includeFiles) at the bundle root
+// while this file lives in api/, so walk up until we find index.html.
+function findRoot() {
+  let dir = __dirname;
+  for (let i = 0; i < 5; i++) {
+    if (fs.existsSync(path.join(dir, 'index.html'))) return dir;
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return __dirname;
+}
+
+const ROOT = findRoot();
 const PORT = Number(process.env.PORT) || 3000;
 // Loopback by default so the server isn't exposed on the LAN; set HOST=0.0.0.0 to override.
 const HOST = process.env.HOST || '127.0.0.1';
