@@ -180,8 +180,9 @@ function serveStatic(req, res) {
 }
 
 /* -------------------------------- router ------------------------------- */
-
-const server = http.createServer(async (req, res) => {
+// Vercel-compatible request handler. Locally it backs the HTTP server below;
+// on Vercel it is invoked directly as a serverless function (module.exports).
+async function handleRequest(req, res) {
   try {
     const url = new URL(req.url, 'http://localhost');
     const pathname = url.pathname;
@@ -223,11 +224,18 @@ const server = http.createServer(async (req, res) => {
     console.error(err);
     sendJson(res, 500, { error: 'Internal server error' });
   }
-});
+}
 
-server.listen(PORT, HOST, () => {
-  console.log(`🍳 Smart Recipe Finder running at http://${HOST}:${PORT}`);
-  if (KEY_MISSING) {
-    console.warn('⚠️  No SPOONACULAR_API_KEY found — copy .env.example to .env and add your key.');
-  }
-});
+// Run as a local server only when executed directly (node server.js).
+// On Vercel this file is required by the platform, which calls handleRequest.
+if (require.main === module) {
+  const server = http.createServer(handleRequest);
+  server.listen(PORT, HOST, () => {
+    console.log(`🍳 Smart Recipe Finder running at http://${HOST}:${PORT}`);
+    if (KEY_MISSING) {
+      console.warn('⚠️  No SPOONACULAR_API_KEY found — copy .env.example to .env and add your key.');
+    }
+  });
+}
+
+module.exports = handleRequest;

@@ -9,6 +9,9 @@ node_modules/
 # Session/agent metadata
 .reasonix/
 
+# Vercel CLI local output
+.vercel/
+
 # Logs & OS junk
 *.log
 .DS_Store

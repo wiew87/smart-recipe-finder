@@ -54,6 +54,20 @@ Spoonacular API
 Only whitelisted search parameters are forwarded; everything else is dropped. The API key is added
 server-side on every upstream request and never returned to the client.
 
+## Deploying to Vercel
+
+This project is a Node server, not a plain static site — Vercel needs the config in
+`vercel.json` (already included) so the `/api/*` proxy runs as a serverless function
+instead of returning 404.
+
+1. Push the repo to GitHub (Vercel auto-detects and deploys on each push).
+2. In the Vercel dashboard → your project → **Settings → Environment Variables**, add:
+   `SPOONACULAR_API_KEY` = your key (it never lives in the repo).
+3. Redeploy (or just push) and open the deployment URL.
+
+Local `npm start` still works exactly as before — `server.js` only binds a port when
+run directly, and exports the request handler for Vercel.
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
